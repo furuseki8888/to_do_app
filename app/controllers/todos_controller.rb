@@ -1,4 +1,6 @@
 class TodosController < ApplicationController
+  before_action :set_todo, only: [:edit, :update]
+
   def index
     @todos = Todo.all
   end
@@ -15,9 +17,24 @@ class TodosController < ApplicationController
       render :new
     end
   end
-  
+
+  def edit
+  end
+
+  def update
+    if @todo.update(todo_params)
+      redirect_to root_path
+    else
+      render :edit
+    end
+  end
+
   private
   def todo_params
     params.require(:todo).permit(:title, :memo).merge(user_id: current_user.id)
+  end
+
+  def set_todo
+    @todo = Todo.find_by(id: params[:id])
   end
 end
