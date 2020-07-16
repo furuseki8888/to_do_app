@@ -1,4 +1,2 @@
 - @todos.each do |todo|
-  %p
-    = todo.title
-    = todo.memo
+  = link_to todo.title, todo_path(todo), method: :delete, data: { confirm: '本当に削除してよろしいですか?'}
