@@ -1,5 +1,5 @@
 class TodosController < ApplicationController
-  before_action :set_todo, only: [:edit, :update, :destroy]
+  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
 
   def index
     @todos = current_user.todos
@@ -39,7 +39,10 @@ class TodosController < ApplicationController
     params.require(:todo).permit(:title, :expired_at, :memo).merge(user_id: current_user.id)
   end
 
-  def set_todo
+  def ensure_correct_user
     @todo = Todo.find_by(id: params[:id])
+    if @todo.user_id != current_user.id
+      redirect_to root_path, notice: '権限がありません'
+    end
   end
 end
