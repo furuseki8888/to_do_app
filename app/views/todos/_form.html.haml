@@ -1,0 +1,5 @@
+= form_with model: @todo, local: true do |f|
+  = f.text_field :title
+  = f.datetime_field :expired_at
+  = f.text_area :memo
+  = f.submit
