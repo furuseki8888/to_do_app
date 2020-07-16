@@ -2,7 +2,7 @@ class TodosController < ApplicationController
   before_action :set_todo, only: [:edit, :update, :destroy]
 
   def index
-    @todos = Todo.all
+    @todos = current_user.todos
   end
 
   def new
@@ -36,7 +36,7 @@ class TodosController < ApplicationController
 
   private
   def todo_params
-    params.require(:todo).permit(:title, :memo).merge(user_id: current_user.id)
+    params.require(:todo).permit(:title, :expired_at, :memo).merge(user_id: current_user.id)
   end
 
   def set_todo
